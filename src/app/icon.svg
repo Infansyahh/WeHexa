@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="WeHexa">
+  <rect width="64" height="64" rx="15" fill="#0D0F12" />
+  <path d="M15 21l6.5 22L32 29l10.5 14L49 21" fill="none" stroke="#D4F85A" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

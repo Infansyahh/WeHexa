@@ -1,0 +1,1857 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WeHexa — Creative & AI Software Agency</title>
+  <meta name="description" content="We build the Software and AI Automations that fuel your growth. From sleek web applications to autonomous AI workflows." />
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            obsidian: {
+              DEFAULT: '#0F1115',
+              surface: '#161920',
+              border: '#252A34',
+            },
+            limepulse: {
+              DEFAULT: '#D4F85A',
+              hover: '#C5EE3C',
+              soft: '#E8FC9E',
+            },
+          },
+          boxShadow: {
+            'pill': '0 10px 30px -5px rgba(15, 17, 21, 0.12), 0 4px 12px -2px rgba(15, 17, 21, 0.06)',
+            'card': '0 20px 45px -15px rgba(15, 17, 21, 0.08)',
+            'obsidian': '0 24px 50px -12px rgba(15, 17, 21, 0.35)',
+          },
+          transitionTimingFunction: {
+            'spring': 'cubic-bezier(0.22, 1, 0.36, 1)',
+            'bounce-soft': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+          }
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* Base Typography & Smooth Rendering */
+    :root {
+      --scroll-dir: 1;
+    }
+
+    html {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background-color: #FFFFFF;
+      color: #0F1115;
+      overflow-x: hidden;
+    }
+
+    body {
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F9FAFB;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D1D5DB;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0F1115;
+    }
+
+    /* Scenic Daylight Sky & Grassy Hillside Backdrop */
+    .scenic-backdrop {
+      background:
+        radial-gradient(110% 80% at 82% 22%, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0) 55%),
+        radial-gradient(90% 70% at 15% 15%, rgba(16, 118, 224, 0.65) 0%, rgba(16, 118, 224, 0) 60%),
+        linear-gradient(180deg, #137CE5 0%, #389CF9 46%, #88C9FF 82%, #BCE2FF 100%);
+    }
+
+    /* Subtle Cloud Drift Keyframes */
+    @keyframes cloudFloatSlow {
+      0%, 100% { transform: translate3d(0px, 0px, 0px) scale(1); }
+      50% { transform: translate3d(22px, -8px, 0px) scale(1.03); }
+    }
+    @keyframes cloudFloatReverse {
+      0%, 100% { transform: translate3d(0px, 0px, 0px) scale(1); }
+      50% { transform: translate3d(-24px, 6px, 0px) scale(1.02); }
+    }
+    .cloud-drift-1 {
+      animation: cloudFloatSlow 16s ease-in-out infinite;
+    }
+    .cloud-drift-2 {
+      animation: cloudFloatReverse 20s ease-in-out infinite;
+    }
+
+    /* Bidirectional Scroll Reveal System */
+    [data-reveal] {
+      opacity: 0;
+      transform: translate3d(0, calc(28px * var(--scroll-dir, 1)), 0) scale(0.985);
+      transition:
+        opacity 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.78s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+
+    [data-reveal].is-visible {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    /* Subtle Scroll-Up Micro-Reaction on Already-Visible Blocks */
+    body.scrolling-up [data-reveal].is-visible {
+      transition-duration: 0.55s;
+    }
+
+    /* Magnetic CTA Arrow Micro-Animation */
+    .cta-pill .arrow-icon {
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .cta-pill:hover .arrow-icon {
+      transform: translate(2px, -2px) rotate(12deg);
+    }
+
+    /* FAQ Smooth Accordion */
+    .faq-content {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .faq-item.open .faq-content {
+      grid-template-rows: 1fr;
+    }
+    .faq-inner {
+      overflow: hidden;
+    }
+    .faq-plus {
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .faq-item.open .faq-plus {
+      transform: rotate(45deg);
+    }
+
+    /* Interactive Service Card Transitions */
+    .service-card {
+      transition:
+        background-color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Blog Card Spotlight & Lift */
+    .blog-card {
+      position: relative;
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .blog-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 48px -16px rgba(15, 17, 21, 0.14);
+    }
+
+    /* Pulse Animations for Custom Vector Previews */
+    @keyframes nodePulse {
+      0%, 100% { opacity: 0.45; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.18); }
+    }
+    .animate-node {
+      animation: nodePulse 2.4s ease-in-out infinite;
+    }
+    @keyframes dashFlow {
+      to { stroke-dashoffset: -24; }
+    }
+    .animate-dash {
+      stroke-dasharray: 6 6;
+      animation: dashFlow 1.6s linear infinite;
+    }
+
+    /* Floating Navbar Hide/Show */
+    #floating-navbar {
+      transition:
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        background-color 0.3s ease,
+        box-shadow 0.3s ease;
+    }
+    #floating-navbar.nav-hidden {
+      transform: translate3d(-50%, -145%, 0);
+    }
+    #floating-navbar.nav-visible {
+      transform: translate3d(-50%, 0%, 0);
+    }
+  </style>
+</head>
+<body class="bg-white text-obsidian selection:bg-limepulse selection:text-obsidian">
+
+  <!-- TOP 3PX LIME-GREEN SCROLL PROGRESS BAR -->
+  <div class="fixed top-0 left-0 right-0 z-[70] h-[3px] bg-transparent pointer-events-none">
+    <div id="scroll-progress-bar" class="h-full w-0 bg-limepulse shadow-[0_0_12px_rgba(212,248,90,0.85)] transition-[width] duration-75 ease-out"></div>
+  </div>
+
+  <!-- SCROLL-DIRECTION AWARE FLOATING PILL NAVBAR -->
+  <header id="floating-navbar" class="nav-visible fixed top-5 md:top-7 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2.25rem)] max-w-[1220px]">
+    <nav aria-label="Primary Navigation" class="flex items-center justify-between rounded-full bg-white/95 backdrop-blur-md px-4 sm:px-6 py-2.5 shadow-pill border border-white/80">
+      <!-- Left: Brand Wordmark -->
+      <a href="#top" class="flex items-center gap-2 group focus:outline-none">
+        <span class="text-lg sm:text-xl font-extrabold tracking-[-0.04em] text-obsidian group-hover:opacity-80 transition-opacity">
+          WeHexa
+        </span>
+      </a>
+
+      <!-- Center: Desktop Links -->
+      <ul class="hidden md:flex items-center gap-1 lg:gap-2 text-[13.5px] font-medium text-gray-600">
+        <li>
+          <a href="#work" data-nav-link="work" class="nav-link px-3.5 py-1.5 rounded-full hover:text-obsidian hover:bg-gray-100/80 transition-all">
+            Portfolio
+          </a>
+        </li>
+        <li>
+          <a href="#services" data-nav-link="services" class="nav-link px-3.5 py-1.5 rounded-full hover:text-obsidian hover:bg-gray-100/80 transition-all">
+            Services
+          </a>
+        </li>
+        <li>
+          <a href="#faq" data-nav-link="faq" class="nav-link px-3.5 py-1.5 rounded-full hover:text-obsidian hover:bg-gray-100/80 transition-all">
+            About Us
+          </a>
+        </li>
+        <li>
+          <a href="#blog" data-nav-link="blog" class="nav-link px-3.5 py-1.5 rounded-full hover:text-obsidian hover:bg-gray-100/80 transition-all">
+            Blog
+          </a>
+        </li>
+      </ul>
+
+      <!-- Right: Language Switcher + Contact Us Pill CTA + Mobile Hamburger -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Interactive Language Switcher -->
+        <div class="relative" id="lang-switcher-wrapper">
+          <button
+            id="lang-toggle-btn"
+            type="button"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-semibold tracking-wide text-gray-700 hover:bg-gray-100 transition-colors"
+          >
+            <span id="current-lang-label">ENG</span>
+            <svg class="w-3.5 h-3.5 text-gray-500 transition-transform duration-200" id="lang-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <!-- Language Dropdown -->
+          <div id="lang-dropdown" class="hidden absolute right-0 mt-2 w-36 rounded-2xl bg-white shadow-xl border border-gray-100 p-1.5 z-50">
+            <button type="button" data-lang="ENG" class="lang-option w-full flex items-center justify-between px-3 py-2 text-xs font-semibold rounded-xl bg-gray-100 text-obsidian">
+              <span>English (EN)</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-obsidian"></span>
+            </button>
+            <button type="button" data-lang="IDN" class="lang-option w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-xl text-gray-600 hover:bg-gray-50 mt-0.5">
+              <span>Bahasa (ID)</span>
+              <span class="text-[10px] font-mono text-gray-400">ID</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Lime Green Contact Us Button -->
+        <a
+          href="#contact"
+          class="magnetic-btn cta-pill inline-flex items-center gap-2.5 rounded-full bg-limepulse hover:bg-limepulse-hover pl-4 pr-1.5 py-1.5 text-xs sm:text-[13px] font-semibold text-obsidian shadow-sm transition-all"
+        >
+          <span data-i18n="nav_contact">Contact Us</span>
+          <span class="w-7 h-7 rounded-full sm:rounded-lg bg-obsidian text-white flex items-center justify-center">
+            <svg class="arrow-icon w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H8M17 7V16" />
+            </svg>
+          </span>
+        </a>
+
+        <!-- Mobile Menu Toggle -->
+        <button
+          id="mobile-menu-btn"
+          type="button"
+          aria-label="Toggle Menu"
+          aria-expanded="false"
+          class="md:hidden inline-flex items-center justify-center w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-obsidian transition-colors"
+        >
+          <svg id="hamburger-icon" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+          <svg id="close-menu-icon" class="w-4 h-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-drawer" class="hidden md:hidden mt-2 rounded-3xl bg-white/95 backdrop-blur-xl shadow-2xl border border-gray-100 p-4">
+      <div class="flex flex-col space-y-1">
+        <a href="#work" class="mobile-nav-link px-4 py-3 rounded-2xl text-sm font-semibold text-obsidian hover:bg-gray-100 transition-colors">Portfolio</a>
+        <a href="#services" class="mobile-nav-link px-4 py-3 rounded-2xl text-sm font-semibold text-obsidian hover:bg-gray-100 transition-colors">Services</a>
+        <a href="#faq" class="mobile-nav-link px-4 py-3 rounded-2xl text-sm font-semibold text-obsidian hover:bg-gray-100 transition-colors">About Us</a>
+        <a href="#blog" class="mobile-nav-link px-4 py-3 rounded-2xl text-sm font-semibold text-obsidian hover:bg-gray-100 transition-colors">Blog</a>
+      </div>
+      <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between px-2">
+        <span class="text-xs text-gray-500">Ready to scale?</span>
+        <button type="button" onclick="openChatDrawer()" class="text-xs font-semibold text-obsidian underline underline-offset-4">Quick Chat →</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN PAGE WRAPPER -->
+  <main id="top" class="pt-2.5 sm:pt-3.5 px-2.5 sm:px-4 md:px-6 max-w-[1440px] mx-auto">
+
+    <!-- =========================================================
+         1. HERO SECTION (Photorealistic Blue Sky & Sunlit Grassy Hillside)
+    ========================================================== -->
+    <section id="work" aria-label="Hero" class="relative overflow-hidden rounded-[24px] sm:rounded-[28px] scenic-backdrop min-h-[620px] sm:min-h-[680px] lg:min-h-[750px] flex flex-col justify-between shadow-card">
+
+      <!-- Photorealistic Parallax Landscape Backdrop -->
+      <div data-parallax="0.14" class="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        <img
+          src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=85"
+          onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1920&q=85';"
+          alt="Sunlit vibrant blue sky with fluffy clouds above a lush green hillside"
+          class="w-full h-full object-cover object-center scale-[1.12] select-none"
+        />
+        <!-- Top-to-Center Sky Readability & Atmospheric Contrast Gradient -->
+        <div class="absolute inset-0 bg-gradient-to-b from-[#0855A8]/60 via-[#0E74D8]/35 to-black/15"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(8,66,134,0.32)_0%,transparent_72%)]"></div>
+      </div>
+
+      <!-- Center Hero Content -->
+      <div class="relative z-20 flex-1 flex flex-col items-center justify-center text-center px-4 sm:px-8 pt-28 sm:pt-32 pb-32 sm:pb-40 max-w-4xl mx-auto">
+
+        <!-- Social Proof Pill with 3 Photorealistic Circular Portraits -->
+        <div data-reveal class="inline-flex items-center gap-2.5 rounded-full bg-white/95 backdrop-blur-md pl-2 pr-4 py-1.5 shadow-lg border border-white/80 mb-6 sm:mb-7">
+          <div class="flex -space-x-2">
+            <img
+              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=85"
+              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=85';"
+              alt="Client Founder Portrait 1"
+              class="w-6 h-6 rounded-full ring-2 ring-white object-cover"
+            />
+            <img
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=85"
+              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=120&q=85';"
+              alt="Client Founder Portrait 2"
+              class="w-6 h-6 rounded-full ring-2 ring-white object-cover"
+            />
+            <img
+              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=85"
+              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=85';"
+              alt="Client Founder Portrait 3"
+              class="w-6 h-6 rounded-full ring-2 ring-white object-cover"
+            />
+          </div>
+          <span class="font-mono text-[10px] sm:text-[11px] font-semibold tracking-[0.06em] uppercase text-obsidian">
+            500+ BUSINESS SCALED THEIR INTELLIGENT TECH
+          </span>
+        </div>
+
+        <!-- Main Display Headline -->
+        <h1 data-reveal style="transition-delay: 80ms;" class="text-white font-bold tracking-[-0.035em] leading-[1.08] text-[2.25rem] sm:text-[3.35rem] lg:text-[4.15rem] drop-shadow-[0_4px_24px_rgba(7,45,92,0.38)]">
+          We build the Software<br class="hidden sm:inline" />
+          and AI Automations that<br class="hidden sm:inline" />
+          fuel your growth
+        </h1>
+
+        <!-- Subheadline -->
+        <p data-reveal style="transition-delay: 150ms;" class="mt-5 sm:mt-6 max-w-[610px] text-white/95 text-sm sm:text-base lg:text-[17px] leading-relaxed font-normal drop-shadow-[0_2px_12px_rgba(7,45,92,0.32)]">
+          From sleek web applications to autonomous AI workflows. We bridge the gap between complex engineering and seamless user experience.
+        </p>
+
+        <!-- Dual Hero CTA Pills -->
+        <div data-reveal style="transition-delay: 220ms;" class="mt-8 sm:mt-9 flex flex-wrap items-center justify-center gap-3.5 sm:gap-4">
+          <!-- Primary Lime CTA -->
+          <a
+            href="#contact"
+            class="magnetic-btn cta-pill inline-flex items-center gap-3 rounded-full bg-limepulse hover:bg-limepulse-hover pl-5 pr-1.5 py-1.5 text-sm font-semibold text-obsidian shadow-lg shadow-black/20 transition-all"
+          >
+            <span>Book a Call</span>
+            <span class="w-8 h-8 rounded-full sm:rounded-lg bg-obsidian text-white flex items-center justify-center">
+              <svg class="arrow-icon w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H8M17 7V16" />
+              </svg>
+            </span>
+          </a>
+
+          <!-- Secondary White CTA -->
+          <a
+            href="#services"
+            class="magnetic-btn cta-pill inline-flex items-center gap-3 rounded-full bg-white/95 hover:bg-white pl-5 pr-1.5 py-1.5 text-sm font-semibold text-obsidian shadow-lg shadow-black/15 border border-white/80 transition-all"
+          >
+            <span>View Our Work</span>
+            <span class="w-8 h-8 rounded-full sm:rounded-lg border border-gray-200 bg-gray-50 text-obsidian flex items-center justify-center">
+              <svg class="arrow-icon w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H8M17 7V16" />
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         2. DIRECTION-REACTIVE CLIENT LOGO MARQUEE
+    ========================================================== -->
+    <section aria-label="Trusted Partners" class="relative py-7 sm:py-9 border-b border-gray-100 overflow-hidden select-none">
+      <!-- Left & Right Soft Edge Fade Masks -->
+      <div class="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-28 bg-gradient-to-r from-white to-transparent z-10"></div>
+      <div class="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-28 bg-gradient-to-l from-white to-transparent z-10"></div>
+
+      <div id="logo-marquee-viewport" class="flex overflow-hidden">
+        <div id="logo-marquee-track" class="flex items-center gap-12 sm:gap-20 whitespace-nowrap will-change-transform">
+          <!-- Set 1 -->
+          <div class="flex items-center gap-12 sm:gap-20 shrink-0 text-gray-400">
+            <!-- Synaptech AI -->
+            <div class="flex items-center gap-2.5 hover:text-obsidian transition-colors duration-300">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v3m0 12v3M3 12h3m12 0h3m-2.6-6.4l-2.1 2.1M7.7 16.3l-2.1 2.1m12.8 0l-2.1-2.1M7.7 7.7L5.6 5.6" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              <span class="text-base sm:text-lg font-semibold tracking-tight">Synaptech AI</span>
+            </div>
+
+            <!-- Datrix -->
+            <div class="flex items-center gap-2.5 hover:text-obsidian transition-colors duration-300">
+              <svg class="w-6 h-5" viewBox="0 0 28 24" fill="currentColor">
+                <polygon points="2,20 8,4 12,4 6,20"/>
+                <polygon points="9,20 15,4 19,4 13,20" opacity="0.75"/>
+                <polygon points="16,20 22,4 26,4 20,20" opacity="0.5"/>
+              </svg>
+              <span class="text-base sm:text-lg font-bold tracking-tight">Datrix</span>
+            </div>
+
+            <!-- DeepOrbit -->
+            <div class="flex items-center gap-2.5 hover:text-obsidian transition-colors duration-300">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/>
+              </svg>
+              <span class="text-base sm:text-lg font-semibold tracking-tight">DeepOrbit</span>
+            </div>
+
+            <!-- DataStack -->
+            <div class="flex items-center gap-2.5 hover:text-obsidian transition-colors duration-300">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <ellipse cx="12" cy="6" rx="7" ry="3"/>
+                <path d="M5 6v6c0 1.66 3.13 3 7 3s7-1.34 7-3V6"/>
+                <path d="M5 12v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6"/>
+              </svg>
+              <span class="text-base sm:text-lg font-semibold tracking-tight">DataStack</span>
+            </div>
+          </div>
+
+          <!-- Set 2 -->
+          <div class="flex items-center gap-12 sm:gap-20 shrink-0 text-gray-400" aria-hidden="true">
+            <div class="flex items-center gap-2.5 hover:text-obsidian transition-colors duration-300">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v3m0 12v3M3 12h3m12 0h3m-2.6-6.4l-2.1 2.1M7.7 16.3l-2.1 2.1m12.8 0l-2.1-2.1M7.7 7.7L5.6 5.6" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              <span class="text-base sm:text-lg font-semibold tracking-tight">Synaptech AI</span>
+            </div>
+            <div class="flex items-center gap-2.5 hover:text-obsidian transition-colors duration-300">
+              <svg class="w-6 h-5" viewBox="0 0 28 24" fill="currentColor">
+                <polygon points="2,20 8,4 12,4 6,20"/>
+                <polygon points="9,20 15,4 19,4 13,20" opacity="0.75"/>
+                <polygon points="16,20 22,4 26,4 20,20" opacity="0.5"/>
+              </svg>
+              <span class="text-base sm:text-lg font-bold tracking-tight">Datrix</span>
+            </div>
+            <div class="flex items-center gap-2.5 hover:text-obsidian transition-colors duration-300">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/>
+              </svg>
+              <span class="text-base sm:text-lg font-semibold tracking-tight">DeepOrbit</span>
+            </div>
+            <div class="flex items-center gap-2.5 hover:text-obsidian transition-colors duration-300">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <ellipse cx="12" cy="6" rx="7" ry="3"/>
+                <path d="M5 6v6c0 1.66 3.13 3 7 3s7-1.34 7-3V6"/>
+                <path d="M5 12v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6"/>
+              </svg>
+              <span class="text-base sm:text-lg font-semibold tracking-tight">DataStack</span>
+            </div>
+          </div>
+
+          <!-- Set 3 -->
+          <div class="flex items-center gap-12 sm:gap-20 shrink-0 text-gray-400" aria-hidden="true">
+            <div class="flex items-center gap-2.5 hover:text-obsidian transition-colors duration-300">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v3m0 12v3M3 12h3m12 0h3m-2.6-6.4l-2.1 2.1M7.7 16.3l-2.1 2.1m12.8 0l-2.1-2.1M7.7 7.7L5.6 5.6" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              <span class="text-base sm:text-lg font-semibold tracking-tight">Synaptech AI</span>
+            </div>
+            <div class="flex items-center gap-2.5 hover:text-obsidian transition-colors duration-300">
+              <svg class="w-6 h-5" viewBox="0 0 28 24" fill="currentColor">
+                <polygon points="2,20 8,4 12,4 6,20"/>
+                <polygon points="9,20 15,4 19,4 13,20" opacity="0.75"/>
+                <polygon points="16,20 22,4 26,4 20,20" opacity="0.5"/>
+              </svg>
+              <span class="text-base sm:text-lg font-bold tracking-tight">Datrix</span>
+            </div>
+            <div class="flex items-center gap-2.5 hover:text-obsidian transition-colors duration-300">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/>
+              </svg>
+              <span class="text-base sm:text-lg font-semibold tracking-tight">DeepOrbit</span>
+            </div>
+            <div class="flex items-center gap-2.5 hover:text-obsidian transition-colors duration-300">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <ellipse cx="12" cy="6" rx="7" ry="3"/>
+                <path d="M5 6v6c0 1.66 3.13 3 7 3s7-1.34 7-3V6"/>
+                <path d="M5 12v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6"/>
+              </svg>
+              <span class="text-base sm:text-lg font-semibold tracking-tight">DataStack</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         3. SERVICES SECTION ("/Our Service")
+    ========================================================== -->
+    <section id="services" class="py-16 sm:py-24 px-2 sm:px-6 lg:px-10 max-w-[1320px] mx-auto">
+      <!-- Eyebrow Row -->
+      <div data-reveal class="flex items-center justify-between text-xs font-mono text-gray-500 mb-5">
+        <span class="tracking-tight font-medium text-obsidian/80">/Our Service</span>
+        <span id="service-active-counter" class="font-semibold text-gray-400">03 / 04</span>
+      </div>
+
+      <!-- Section Title -->
+      <h2 data-reveal style="transition-delay: 60ms;" class="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-[-0.03em] leading-[1.12] text-obsidian max-w-lg mb-10 sm:mb-12">
+        AI-powered solutions for tomorrow's world.
+      </h2>
+
+      <!-- 4-Column Interactive Service Cards Grid -->
+      <div id="services-grid" data-reveal style="transition-delay: 120ms;" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+
+        <!-- CARD 01: Web & Software Development -->
+        <article
+          data-service-card="0"
+          tabindex="0"
+          class="service-card group cursor-pointer rounded-[22px] border border-gray-200/90 bg-white p-6 sm:p-7 min-h-[370px] sm:min-h-[410px] flex flex-col justify-between focus:outline-none"
+        >
+          <div>
+            <h3 class="service-title text-lg sm:text-[19px] font-bold tracking-tight leading-snug text-obsidian">
+              Web &amp; Software<br />Development
+            </h3>
+            <p class="service-desc mt-3 text-xs sm:text-[13.5px] leading-relaxed text-gray-500 opacity-0 max-h-0 overflow-hidden transition-all duration-300">
+              Full-stack cloud platforms, high-velocity SaaS architectures, and resilient APIs engineered for scale.
+            </p>
+          </div>
+
+          <!-- Clean Technical UI Wireframe Preview -->
+          <div class="service-preview mt-6 rounded-2xl bg-gray-50 border border-gray-100 p-4 h-44 flex flex-col justify-between overflow-hidden transition-all duration-300">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-gray-400"></span>
+                <span class="w-2 h-2 rounded-full bg-gray-300"></span>
+                <span class="w-2 h-2 rounded-full bg-gray-300"></span>
+              </div>
+              <span class="font-mono text-[10px] text-gray-400">next.config.ts</span>
+            </div>
+            <div class="space-y-2 font-mono text-[11px]">
+              <div class="flex items-center gap-2">
+                <span class="text-limepulse font-semibold">const</span>
+                <span class="preview-code-text text-gray-500">edgeRuntime = true;</span>
+              </div>
+              <div class="h-1.5 w-4/5 rounded bg-gray-200/80"></div>
+              <div class="h-1.5 w-3/5 rounded bg-gray-200/80"></div>
+              <div class="pt-2 flex items-center justify-between text-[10px] text-emerald-500 font-semibold">
+                <span>● 99.99% Uptime</span>
+                <span>14ms Latency</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 02: AI & Automations -->
+        <article
+          data-service-card="1"
+          tabindex="0"
+          class="service-card group cursor-pointer rounded-[22px] border border-gray-200/90 bg-white p-6 sm:p-7 min-h-[370px] sm:min-h-[410px] flex flex-col justify-between focus:outline-none"
+        >
+          <div>
+            <h3 class="service-title text-lg sm:text-[19px] font-bold tracking-tight leading-snug text-obsidian">
+              AI &amp; Automations
+            </h3>
+            <p class="service-desc mt-3 text-xs sm:text-[13.5px] leading-relaxed text-gray-500 opacity-0 max-h-0 overflow-hidden transition-all duration-300">
+              Autonomous multi-agent LLM pipelines, RAG knowledge systems, and bespoke workflow intelligence.
+            </p>
+          </div>
+
+          <!-- Clean Technical UI Pipeline Wireframe -->
+          <div class="service-preview mt-6 rounded-2xl bg-gray-50 border border-gray-100 p-4 h-44 flex flex-col justify-between overflow-hidden transition-all duration-300">
+            <div class="flex items-center justify-between text-[10px] font-mono text-gray-400">
+              <span>AGENT PIPELINE</span>
+              <span class="text-limepulse font-semibold">ACTIVE</span>
+            </div>
+            <div class="flex items-center justify-between gap-2 my-auto">
+              <div class="px-2.5 py-2 rounded-xl border border-gray-300/60 bg-white/10 text-[10px] font-mono">Input</div>
+              <div class="flex-1 h-[1.5px] bg-gradient-to-r from-gray-400/50 via-limepulse to-gray-400/50"></div>
+              <div class="w-10 h-10 rounded-xl border border-limepulse/70 bg-obsidian text-limepulse flex items-center justify-center">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <div class="flex-1 h-[1.5px] bg-gradient-to-r from-gray-400/50 via-limepulse to-gray-400/50"></div>
+              <div class="px-2.5 py-2 rounded-xl border border-gray-300/60 bg-white/10 text-[10px] font-mono">Action</div>
+            </div>
+            <div class="flex items-center justify-between text-[10px] font-mono text-gray-400">
+              <span>Latency: 180ms</span>
+              <span>RAG v4.2</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 03: Design & Branding (DEFAULT ACTIVE OBSIDIAN #0D0F12 CARD) -->
+        <article
+          data-service-card="2"
+          tabindex="0"
+          class="service-card is-active group cursor-pointer rounded-[22px] border border-white/15 bg-[#0D0F12] text-white p-6 sm:p-7 min-h-[370px] sm:min-h-[410px] flex flex-col justify-between shadow-obsidian focus:outline-none"
+        >
+          <div>
+            <h3 class="service-title text-lg sm:text-[19px] font-bold tracking-tight leading-snug text-white">
+              Design &amp; Branding
+            </h3>
+            <p class="service-desc mt-3 text-xs sm:text-[13.5px] leading-relaxed text-gray-400 opacity-100 max-h-32 overflow-hidden transition-all duration-300">
+              Our team of designers, developers, and thinkers driven by one purpose.
+            </p>
+          </div>
+
+          <!-- Clean Minimalist UI / Pen-Tool Wireframe Card at Bottom -->
+          <div class="service-preview mt-6 rounded-2xl bg-[#161920] border border-white/10 p-4 h-44 flex flex-col justify-between relative overflow-hidden transition-all duration-300">
+            <div class="flex items-center justify-between text-[10px] font-mono text-gray-400">
+              <span>DESIGN SYSTEM</span>
+              <span class="text-limepulse">v3.0</span>
+            </div>
+            <div class="my-auto mx-auto w-14 h-14 rounded-2xl border border-white/15 bg-white/5 flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l7-7 3 3-7 7-3-3z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2 2l7.586 7.586" />
+                <circle cx="11" cy="11" r="2" />
+              </svg>
+            </div>
+            <div class="flex items-center justify-between text-[10px] font-mono text-gray-400">
+              <span>Figma Tokens</span>
+              <span>Interactive UI</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 04: Maintenance & Consulting -->
+        <article
+          data-service-card="3"
+          tabindex="0"
+          class="service-card group cursor-pointer rounded-[22px] border border-gray-200/90 bg-white p-6 sm:p-7 min-h-[370px] sm:min-h-[410px] flex flex-col justify-between focus:outline-none"
+        >
+          <div>
+            <h3 class="service-title text-lg sm:text-[19px] font-bold tracking-tight leading-snug text-obsidian">
+              Maintenance &amp;<br />Consulting
+            </h3>
+            <p class="service-desc mt-3 text-xs sm:text-[13.5px] leading-relaxed text-gray-500 opacity-0 max-h-0 overflow-hidden transition-all duration-300">
+              Continuous security audits, performance tuning, and CTO-level architectural advisory as you scale.
+            </p>
+          </div>
+
+          <!-- Clean Technical Telemetry Wireframe -->
+          <div class="service-preview mt-6 rounded-2xl bg-gray-50 border border-gray-100 p-4 h-44 flex flex-col justify-between overflow-hidden transition-all duration-300">
+            <div class="flex items-center justify-between text-[10px] font-mono text-gray-400">
+              <span>SYSTEM HEALTH</span>
+              <span class="text-emerald-500 font-semibold">OPTIMAL</span>
+            </div>
+            <div class="grid grid-cols-4 gap-2 items-end h-16 px-1">
+              <div class="h-7 rounded-md bg-gray-300/60"></div>
+              <div class="h-10 rounded-md bg-gray-300/80"></div>
+              <div class="h-12 rounded-md bg-limepulse/70"></div>
+              <div class="h-16 rounded-md bg-limepulse"></div>
+            </div>
+            <div class="flex items-center justify-between text-[11px] font-medium text-gray-500">
+              <span>Throughput</span>
+              <span class="font-mono font-semibold text-gray-500">+312% YoY</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         4. FAQ ACCORDION & QUICK SUPPORT STRIP
+    ========================================================== -->
+    <section id="faq" class="py-12 sm:py-20 px-2 sm:px-6 lg:px-10 max-w-[1140px] mx-auto">
+      <div data-reveal class="text-center mb-10">
+        <span class="font-mono text-xs text-gray-400 uppercase tracking-wider">/FAQ</span>
+        <h2 class="mt-2 text-2xl sm:text-4xl font-bold tracking-[-0.03em] text-obsidian">
+          Clear answers before we build.
+        </h2>
+      </div>
+
+      <!-- 2-Column Responsive FAQ Accordion Grid -->
+      <div data-reveal style="transition-delay: 80ms;" class="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4 items-start">
+
+        <!-- FAQ 1 -->
+        <div class="faq-item rounded-2xl border border-gray-200/90 bg-[#F9FAFB] hover:border-gray-300 transition-colors">
+          <button type="button" aria-expanded="false" class="faq-trigger w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-4 sm:py-5 text-left">
+            <span class="text-sm sm:text-[15px] font-semibold text-obsidian">
+              Do you offer MVP or phased development?
+            </span>
+            <span class="faq-plus shrink-0 w-7 h-7 rounded-full bg-white border border-gray-200 flex items-center justify-center text-obsidian text-base font-medium">
+              +
+            </span>
+          </button>
+          <div class="faq-content">
+            <div class="faq-inner">
+              <p class="px-5 sm:px-6 pb-5 text-xs sm:text-sm leading-relaxed text-gray-600">
+                Yes. We specialize in rapid 4–6 week MVP sprints so you can validate with real users and investors quickly, followed by modular phases to scale infrastructure, AI workflows, and enterprise integrations.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item rounded-2xl border border-gray-200/90 bg-[#F9FAFB] hover:border-gray-300 transition-colors">
+          <button type="button" aria-expanded="false" class="faq-trigger w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-4 sm:py-5 text-left">
+            <span class="text-sm sm:text-[15px] font-semibold text-obsidian">
+              What technologies do you specialize in?
+            </span>
+            <span class="faq-plus shrink-0 w-7 h-7 rounded-full bg-white border border-gray-200 flex items-center justify-center text-obsidian text-base font-medium">
+              +
+            </span>
+          </button>
+          <div class="faq-content">
+            <div class="faq-inner">
+              <p class="px-5 sm:px-6 pb-5 text-xs sm:text-sm leading-relaxed text-gray-600">
+                Our core stack includes Next.js, React, TypeScript, Node.js, Python (FastAPI), PostgreSQL, and vector databases paired with OpenAI, Anthropic Claude, LangGraph, and custom fine-tuned models.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item rounded-2xl border border-gray-200/90 bg-[#F9FAFB] hover:border-gray-300 transition-colors">
+          <button type="button" aria-expanded="false" class="faq-trigger w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-4 sm:py-5 text-left">
+            <span class="text-sm sm:text-[15px] font-semibold text-obsidian">
+              How fast can we launch an AI automation workflow?
+            </span>
+            <span class="faq-plus shrink-0 w-7 h-7 rounded-full bg-white border border-gray-200 flex items-center justify-center text-obsidian text-base font-medium">
+              +
+            </span>
+          </button>
+          <div class="faq-content">
+            <div class="faq-inner">
+              <p class="px-5 sm:px-6 pb-5 text-xs sm:text-sm leading-relaxed text-gray-600">
+                Most custom AI automation pipelines—such as autonomous customer triage, CRM enrichment, or internal RAG knowledge assistants—go from architecture blueprint to production within 10 to 21 business days.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item rounded-2xl border border-gray-200/90 bg-[#F9FAFB] hover:border-gray-300 transition-colors">
+          <button type="button" aria-expanded="false" class="faq-trigger w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-4 sm:py-5 text-left">
+            <span class="text-sm sm:text-[15px] font-semibold text-obsidian">
+              Do we get direct access to senior engineers?
+            </span>
+            <span class="faq-plus shrink-0 w-7 h-7 rounded-full bg-white border border-gray-200 flex items-center justify-center text-obsidian text-base font-medium">
+              +
+            </span>
+          </button>
+          <div class="faq-content">
+            <div class="faq-inner">
+              <p class="px-5 sm:px-6 pb-5 text-xs sm:text-sm leading-relaxed text-gray-600">
+                Absolutely. You collaborate directly in Slack and weekly architecture reviews with our founding engineers and senior product designers—zero middle-management layers or handoff delays.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Centered Quick Support Strip -->
+      <div data-reveal style="transition-delay: 140ms;" class="mt-9 sm:mt-11 text-center">
+        <p class="text-xs sm:text-[13px] text-gray-500 mb-3.5">
+          Have a question that's not answered here?
+        </p>
+        <div class="inline-flex flex-wrap items-center justify-center gap-2.5">
+          <button
+            type="button"
+            onclick="openChatDrawer()"
+            class="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white hover:bg-gray-50 px-4 py-2 text-xs font-semibold text-obsidian shadow-xs transition-all"
+          >
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span>Quick Chat</span>
+          </button>
+
+          <a
+            href="#contact"
+            class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white hover:bg-gray-50 px-4 py-2 text-xs font-semibold text-obsidian shadow-xs transition-all"
+          >
+            <span>Schedule a Call</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         5. BLOG / INSIGHTS SECTION ("/Recent Blog")
+    ========================================================== -->
+    <section id="blog" class="py-16 sm:py-24 px-2 sm:px-6 lg:px-10 max-w-[1320px] mx-auto">
+      <!-- Eyebrow Row -->
+      <div data-reveal class="flex items-center justify-between text-xs font-mono text-gray-500 mb-4">
+        <span class="font-medium text-obsidian/80">/Recent Blog</span>
+        <span class="tracking-widest text-gray-400">•••</span>
+      </div>
+
+      <!-- Header Row with Right Lime CTA -->
+      <div data-reveal style="transition-delay: 60ms;" class="flex flex-col sm:flex-row sm:items-end justify-between gap-5 mb-10 sm:mb-12">
+        <h2 class="text-3xl sm:text-4xl lg:text-[2.6rem] font-bold tracking-[-0.03em] leading-[1.12] text-obsidian max-w-md">
+          Strategic insights on AI, Tech, and Growth.
+        </h2>
+
+        <button
+          type="button"
+          onclick="openArticleModal(0)"
+          class="magnetic-btn cta-pill self-start sm:self-auto inline-flex items-center gap-2.5 rounded-full bg-limepulse hover:bg-limepulse-hover pl-4 pr-1.5 py-1.5 text-xs sm:text-[13px] font-semibold text-obsidian shadow-sm transition-all"
+        >
+          <span>Explore our Insights</span>
+          <span class="w-7 h-7 rounded-lg bg-obsidian text-white flex items-center justify-center">
+            <svg class="arrow-icon w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H8M17 7V16" />
+            </svg>
+          </span>
+        </button>
+      </div>
+
+      <!-- 3-Column Interactive Article Cards (Photorealistic & 3D Studio Renders) -->
+      <div data-reveal style="transition-delay: 120ms;" class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7">
+
+        <!-- BLOG CARD 1 -->
+        <article onclick="openArticleModal(0)" class="blog-card group cursor-pointer rounded-[22px] bg-white">
+          <div class="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 border border-gray-100">
+            <img
+              src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=900&q=85"
+              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=85';"
+              alt="AI Engineer in tailored blazer working on laptop in modern office"
+              class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+            />
+          </div>
+
+          <!-- Tags -->
+          <div class="mt-4 flex flex-wrap items-center gap-1.5">
+            <span class="px-2.5 py-1 rounded-md bg-gray-100 text-[11px] font-medium text-gray-600">Automation</span>
+            <span class="px-2.5 py-1 rounded-md bg-gray-100 text-[11px] font-medium text-gray-600">AI Strategy</span>
+            <span class="px-2.5 py-1 rounded-md bg-gray-100 text-[11px] font-medium text-gray-600">Tech Trends</span>
+          </div>
+
+          <!-- Title -->
+          <h3 class="mt-3 text-base sm:text-[17px] font-bold leading-snug text-obsidian group-hover:text-blue-600 transition-colors">
+            How to integrate LLMs into your existing customer support workflow.
+          </h3>
+        </article>
+
+        <!-- BLOG CARD 2 -->
+        <article onclick="openArticleModal(1)" class="blog-card group cursor-pointer rounded-[22px] bg-white">
+          <div class="relative aspect-[4/3] rounded-2xl overflow-hidden bg-[#1D0A04] border border-gray-100">
+            <img
+              src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=900&q=85"
+              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=900&q=85';"
+              alt="3D studio render of glowing warm orange-amber sculptural vortex wave"
+              class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+            />
+          </div>
+
+          <!-- Tags -->
+          <div class="mt-4 flex flex-wrap items-center gap-1.5">
+            <span class="px-2.5 py-1 rounded-md bg-gray-100 text-[11px] font-medium text-gray-600">Research</span>
+            <span class="px-2.5 py-1 rounded-md bg-gray-100 text-[11px] font-medium text-gray-600">LLM</span>
+            <span class="px-2.5 py-1 rounded-md bg-gray-100 text-[11px] font-medium text-gray-600">Workflows</span>
+          </div>
+
+          <!-- Title -->
+          <h3 class="mt-3 text-base sm:text-[17px] font-bold leading-snug text-obsidian group-hover:text-blue-600 transition-colors">
+            Why Next.js is the superior choice for high-performance SaaS platforms.
+          </h3>
+        </article>
+
+        <!-- BLOG CARD 3 -->
+        <article onclick="openArticleModal(2)" class="blog-card group cursor-pointer rounded-[22px] bg-white">
+          <div class="relative aspect-[4/3] rounded-2xl overflow-hidden bg-[#0D0F12] border border-gray-100">
+            <span class="absolute top-3.5 left-3.5 z-10 rounded-full bg-white/15 backdrop-blur-md border border-white/20 px-3 py-1 text-[10px] font-medium text-white">
+              Design Ops
+            </span>
+            <img
+              src="https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?auto=format&fit=crop&w=900&q=85"
+              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?auto=format&fit=crop&w=900&q=85';"
+              alt="Dark obsidian 3D abstract fluid wave render with vibrant orange and teal highlights"
+              class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+            />
+          </div>
+
+          <!-- Tags -->
+          <div class="mt-4 flex flex-wrap items-center gap-1.5">
+            <span class="px-2.5 py-1 rounded-md bg-gray-100 text-[11px] font-medium text-gray-600">Product</span>
+            <span class="px-2.5 py-1 rounded-md bg-gray-100 text-[11px] font-medium text-gray-600">Research</span>
+            <span class="px-2.5 py-1 rounded-md bg-gray-100 text-[11px] font-medium text-gray-600">Figma</span>
+          </div>
+
+          <!-- Title -->
+          <h3 class="mt-3 text-base sm:text-[17px] font-bold leading-snug text-obsidian group-hover:text-blue-600 transition-colors">
+            The psychology of UI: How micro-interactions boost user retention.
+          </h3>
+        </article>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         6. SCROLL-LINKED KINETIC DISPLAY TYPOGRAPHY BANNER
+    ========================================================== -->
+    <section aria-hidden="true" class="py-6 sm:py-10 overflow-hidden select-none">
+      <div id="kinetic-banner-track" class="flex items-center whitespace-nowrap will-change-transform">
+        <span class="text-[3.25rem] sm:text-[5rem] lg:text-[6.5rem] font-extrabold tracking-[-0.04em] leading-none text-obsidian">
+          Solutions built for tomorrow <span class="text-limepulse drop-shadow-[0_1px_1px_rgba(15,17,21,0.4)]">•</span> AI-first engineering <span class="text-limepulse drop-shadow-[0_1px_1px_rgba(15,17,21,0.4)]">•</span>&nbsp;
+        </span>
+        <span class="text-[3.25rem] sm:text-[5rem] lg:text-[6.5rem] font-extrabold tracking-[-0.04em] leading-none text-obsidian">
+          Solutions built for tomorrow <span class="text-limepulse drop-shadow-[0_1px_1px_rgba(15,17,21,0.4)]">•</span> AI-first engineering <span class="text-limepulse drop-shadow-[0_1px_1px_rgba(15,17,21,0.4)]">•</span>&nbsp;
+        </span>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         7. "LET'S TALK" CONTACT & LEAD CAPTURE SECTION
+    ========================================================== -->
+    <section id="contact" aria-label="Let's Talk" class="relative overflow-hidden rounded-[24px] sm:rounded-[28px] scenic-backdrop px-4 sm:px-8 lg:px-14 py-12 sm:py-16 lg:py-20 shadow-card">
+
+      <!-- Photorealistic Blue Sky & Sunlit Green Hillside Background -->
+      <div data-parallax="0.1" class="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        <img
+          src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1920&q=85"
+          onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=85';"
+          alt="Blue sky meeting a sweeping sunlit green hillside"
+          class="w-full h-full object-cover object-center scale-[1.12] select-none"
+        />
+        <!-- Smooth Azure-to-Emerald Atmospheric Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-br from-[#0F76D8]/65 via-[#1E88E5]/35 to-[#14532D]/45"></div>
+      </div>
+
+      <!-- 2-Column Content Container -->
+      <div class="relative z-10 max-w-[1180px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+
+        <!-- LEFT COLUMN: Floating White Lead Form Card (Cols 1-6) -->
+        <div data-reveal class="lg:col-span-6 rounded-3xl bg-white p-6 sm:p-8 shadow-2xl border border-white/90">
+          <form id="strategy-form" novalidate class="space-y-4">
+            <!-- Full Name -->
+            <div>
+              <label for="full-name" class="block text-xs font-semibold text-obsidian mb-1.5">
+                Enter your full name
+              </label>
+              <input
+                id="full-name"
+                name="fullName"
+                type="text"
+                required
+                placeholder="Your full name"
+                class="w-full rounded-xl border border-gray-200 bg-[#FAFAFA] px-3.5 py-2.5 text-sm text-obsidian placeholder:text-gray-400 focus:border-obsidian focus:bg-white focus:outline-none transition-all"
+              />
+            </div>
+
+            <!-- 2-Col Grid: Email & WhatsApp -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div>
+                <label for="email" class="block text-xs font-semibold text-obsidian mb-1.5">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="you@company.com"
+                  class="w-full rounded-xl border border-gray-200 bg-[#FAFAFA] px-3.5 py-2.5 text-sm text-obsidian placeholder:text-gray-400 focus:border-obsidian focus:bg-white focus:outline-none transition-all"
+                />
+              </div>
+              <div>
+                <label for="whatsapp" class="block text-xs font-semibold text-obsidian mb-1.5">
+                  WhatsApp
+                </label>
+                <input
+                  id="whatsapp"
+                  name="whatsapp"
+                  type="tel"
+                  placeholder="+1 (555) 234-5678"
+                  class="w-full rounded-xl border border-gray-200 bg-[#FAFAFA] px-3.5 py-2.5 text-sm text-obsidian placeholder:text-gray-400 focus:border-obsidian focus:bg-white focus:outline-none transition-all"
+                />
+              </div>
+            </div>
+
+            <!-- 2-Col Grid: Service Type & Project Budget -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div>
+                <label for="service-type" class="block text-xs font-semibold text-obsidian mb-1.5">
+                  Service type
+                </label>
+                <div class="relative">
+                  <select
+                    id="service-type"
+                    name="serviceType"
+                    class="w-full appearance-none rounded-xl border border-gray-200 bg-[#FAFAFA] px-3.5 py-2.5 pr-9 text-sm text-obsidian focus:border-obsidian focus:bg-white focus:outline-none transition-all"
+                  >
+                    <option value="Web & Software Development">Web &amp; Software Development</option>
+                    <option value="AI & Automations" selected>AI &amp; Automations</option>
+                    <option value="Design & Branding">Design &amp; Branding</option>
+                    <option value="Maintenance & Consulting">Maintenance &amp; Consulting</option>
+                  </select>
+                  <svg class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
+
+              <div>
+                <label for="project-budget" class="block text-xs font-semibold text-obsidian mb-1.5">
+                  Project budget
+                </label>
+                <div class="relative">
+                  <select
+                    id="project-budget"
+                    name="projectBudget"
+                    class="w-full appearance-none rounded-xl border border-gray-200 bg-[#FAFAFA] px-3.5 py-2.5 pr-9 text-sm text-obsidian focus:border-obsidian focus:bg-white focus:outline-none transition-all"
+                  >
+                    <option value="$5k - $10k">$5k - $10k</option>
+                    <option value="$10k - $25k" selected>$10k - $25k</option>
+                    <option value="$25k - $50k">$25k - $50k</option>
+                    <option value="$50k+">$50k+</option>
+                  </select>
+                  <svg class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project Details -->
+            <div>
+              <label for="project-details" class="block text-xs font-semibold text-obsidian mb-1.5">
+                Project details
+              </label>
+              <textarea
+                id="project-details"
+                name="projectDetails"
+                rows="3"
+                required
+                placeholder="We want a custom AI & web platform with predictive analytics, automated workflows, and a seamless user experience..."
+                class="w-full rounded-xl border border-gray-200 bg-[#FAFAFA] px-3.5 py-2.5 text-sm text-obsidian placeholder:text-gray-400 focus:border-obsidian focus:bg-white focus:outline-none transition-all resize-none"
+              ></textarea>
+            </div>
+
+            <!-- Inline Validation Alert -->
+            <div id="form-error-msg" class="hidden rounded-xl bg-rose-50 border border-rose-200 px-3.5 py-2 text-xs font-medium text-rose-700">
+              Please enter your full name, a valid email address, and brief project details.
+            </div>
+
+            <!-- Privacy Note -->
+            <p class="text-[11px] leading-relaxed text-gray-400">
+              We never share your personal information with anyone. Read our
+              <a href="#footer" class="underline text-gray-600 hover:text-obsidian">Privacy Policy</a>.
+            </p>
+
+            <!-- Full-Width Lime Green Submit Button -->
+            <button
+              type="submit"
+              class="cta-pill w-full flex items-center justify-between rounded-full bg-limepulse hover:bg-limepulse-hover pl-5 pr-1.5 py-1.5 text-sm font-semibold text-obsidian shadow-md transition-all"
+            >
+              <span>Schedule a Strategy Call</span>
+              <span class="w-8 h-8 rounded-full sm:rounded-lg bg-obsidian text-white flex items-center justify-center">
+                <svg class="arrow-icon w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H8M17 7V16" />
+                </svg>
+              </span>
+            </button>
+          </form>
+
+          <!-- Animated Submission Confirmation Card -->
+          <div id="form-success-card" class="hidden py-8 text-center space-y-4">
+            <div class="mx-auto w-14 h-14 rounded-2xl bg-limepulse flex items-center justify-center shadow-md">
+              <svg class="w-7 h-7 text-obsidian" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-obsidian">Strategy Call Requested!</h3>
+            <p id="form-success-summary" class="text-xs sm:text-sm text-gray-600 max-w-sm mx-auto leading-relaxed">
+              Thanks! Our technical founders have received your brief and will reply within 24 hours.
+            </p>
+            <button
+              type="button"
+              id="reset-form-btn"
+              class="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 hover:bg-gray-100 px-4 py-2 text-xs font-semibold text-obsidian transition-colors"
+            >
+              Send another inquiry
+            </button>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Heading, Feature Blocks & Direct Founder Access Card (Cols 7-12) -->
+        <div data-reveal style="transition-delay: 120ms;" class="lg:col-span-6 flex flex-col justify-between lg:min-h-[490px] text-white">
+          <div>
+            <h2 class="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-[-0.03em] leading-tight drop-shadow-[0_2px_14px_rgba(7,45,92,0.3)]">
+              Let's Talk
+            </h2>
+            <p class="mt-2.5 text-sm sm:text-[15px] text-white/95 max-w-md leading-relaxed drop-shadow-[0_1px_8px_rgba(7,45,92,0.25)]">
+              Tell us about your project and we'll get back to you within 24 hours.
+            </p>
+
+            <!-- 2 Feature Highlights -->
+            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <!-- Feature 1 -->
+              <div>
+                <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center mb-3.5">
+                  <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 class="text-sm sm:text-[15px] font-bold text-white drop-shadow-xs">Production-Ready</h3>
+                <p class="mt-1.5 text-xs leading-relaxed text-white/90">
+                  Battle-tested CI/CD, security hardening, and sub-50ms edge latency ready for immediate launch.
+                </p>
+              </div>
+
+              <!-- Feature 2 -->
+              <div>
+                <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center mb-3.5">
+                  <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
+                </div>
+                <h3 class="text-sm sm:text-[15px] font-bold text-white drop-shadow-xs">Scalable Architecture</h3>
+                <p class="mt-1.5 text-xs leading-relaxed text-white/90">
+                  Clean, modular codebases engineered from day one to grow from 100 to 10M+ users.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating White "Direct Founder Access" Card with Realistic Studio Portrait -->
+          <div class="mt-10 lg:mt-14 rounded-[22px] bg-white/95 backdrop-blur-md p-4 sm:p-5 text-obsidian shadow-2xl border border-white flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <img
+              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=85"
+              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=85';"
+              alt="WeHexa Technical Founder Studio Portrait"
+              class="shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover object-top border border-gray-200 shadow-xs"
+            />
+
+            <!-- Copy & Dual Mini Pill Buttons -->
+            <div class="flex-1">
+              <h4 class="text-sm sm:text-[15px] font-bold text-obsidian">Direct Founder Access</h4>
+              <p class="mt-1 text-[11.5px] sm:text-xs leading-relaxed text-gray-600">
+                Skip the account managers. You'll have a direct line to the technical leads building your product for maximum clarity and speed.
+              </p>
+              <div class="mt-3 flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onclick="openChatDrawer()"
+                  class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white hover:bg-gray-50 px-3 py-1.5 text-[11px] font-semibold text-obsidian transition-colors"
+                >
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span>Quick Chat</span>
+                </button>
+                <a
+                  href="#full-name"
+                  class="inline-flex items-center gap-1 rounded-full bg-gray-100 hover:bg-gray-200 px-3 py-1.5 text-[11px] font-semibold text-obsidian transition-colors"
+                >
+                  <span>Schedule a Call</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         8. DARK OBSIDIAN STUDIO FOOTER (#0D0F12)
+    ========================================================== -->
+    <footer id="footer" class="mt-4 sm:mt-5 mb-4 sm:mb-6 rounded-[24px] sm:rounded-[28px] bg-[#0D0F12] text-white px-6 sm:px-10 lg:px-14 pt-12 sm:pt-16 pb-8">
+      <div class="max-w-[1220px] mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-white/10">
+
+          <!-- Col 1: Brand + Description + Lime CTA (Cols 1-5) -->
+          <div class="md:col-span-5">
+            <a href="#top" class="text-2xl font-extrabold tracking-[-0.04em] text-white">
+              WeHexa
+            </a>
+            <p class="mt-3 text-xs sm:text-[13px] leading-relaxed text-gray-400 max-w-xs">
+              Rigorous engineering followed by a seamless transition to production.
+            </p>
+            <a
+              href="#contact"
+              class="magnetic-btn cta-pill mt-6 inline-flex items-center gap-2.5 rounded-full bg-limepulse hover:bg-limepulse-hover pl-4 pr-1.5 py-1.5 text-xs font-semibold text-obsidian transition-all"
+            >
+              <span>Schedule a Strategy Call</span>
+              <span class="w-7 h-7 rounded-full sm:rounded-lg bg-obsidian text-white flex items-center justify-center">
+                <svg class="arrow-icon w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H8M17 7V16" />
+                </svg>
+              </span>
+            </a>
+          </div>
+
+          <!-- Col 2: Pages (Cols 6-7) -->
+          <div class="md:col-span-2">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-4">Pages</h3>
+            <ul class="space-y-2.5 text-xs sm:text-[13px] text-gray-300">
+              <li><a href="#top" class="hover:text-limepulse transition-colors">Home</a></li>
+              <li><a href="#work" class="hover:text-limepulse transition-colors">Portfolio</a></li>
+              <li><a href="#services" class="hover:text-limepulse transition-colors">Services</a></li>
+              <li><a href="#faq" class="hover:text-limepulse transition-colors">About Us</a></li>
+              <li><a href="#blog" class="hover:text-limepulse transition-colors">Blog</a></li>
+            </ul>
+          </div>
+
+          <!-- Col 3: Social (Cols 8-9) -->
+          <div class="md:col-span-2">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-4">Social</h3>
+            <ul class="space-y-2.5 text-xs sm:text-[13px] text-gray-300">
+              <li><a href="#contact" class="hover:text-limepulse transition-colors">X / Twitter</a></li>
+              <li><a href="#contact" class="hover:text-limepulse transition-colors">Instagram</a></li>
+              <li><a href="#contact" class="hover:text-limepulse transition-colors">LinkedIn</a></li>
+              <li><a href="#contact" class="hover:text-limepulse transition-colors">Dribbble</a></li>
+            </ul>
+          </div>
+
+          <!-- Col 4: Contact Details (Cols 10-12) -->
+          <div class="md:col-span-3">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-4">Contact</h3>
+            <ul class="space-y-2.5 text-xs sm:text-[13px] text-gray-300">
+              <li class="text-gray-400 leading-relaxed">
+                WeHexa HQ<br />
+                71–75 Shelton Street, London
+              </li>
+              <li>
+                <a href="tel:+442079460821" class="hover:text-limepulse transition-colors">+44 20 7946 0821</a>
+              </li>
+              <li>
+                <a href="mailto:hello@wehexa.io" class="text-limepulse hover:underline">hello@wehexa.io</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Bottom Legal Bar -->
+        <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-gray-500">
+          <div class="flex items-center gap-5">
+            <a href="#footer" class="hover:text-gray-300 transition-colors">Cookie Policy</a>
+            <a href="#footer" class="hover:text-gray-300 transition-colors">Privacy Policy</a>
+          </div>
+          <p>© 2026 WeHexa. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- =========================================================
+       FLOATING BACK-TO-TOP PILL (Appears on Scroll-Up)
+  ========================================================== -->
+  <button
+    id="back-to-top-btn"
+    type="button"
+    aria-label="Back to Top"
+    class="fixed bottom-5 right-5 z-40 translate-y-20 opacity-0 pointer-events-none inline-flex items-center gap-2 rounded-full bg-obsidian text-white border border-white/15 px-4 py-2.5 text-xs font-semibold shadow-xl hover:bg-obsidian-surface transition-all duration-300"
+  >
+    <span>Back to Top</span>
+    <span class="w-5 h-5 rounded-full bg-limepulse text-obsidian flex items-center justify-center font-bold">↑</span>
+  </button>
+
+  <!-- =========================================================
+       INTERACTIVE FOUNDER QUICK CHAT WIDGET MODAL
+  ========================================================== -->
+  <div id="chat-modal" class="fixed inset-0 z-[80] hidden items-end sm:items-center justify-center bg-black/45 backdrop-blur-xs p-4">
+    <div class="w-full max-w-md rounded-3xl bg-white shadow-2xl border border-gray-100 overflow-hidden animate-[fadeIn_0.25s_ease-out]">
+      <!-- Header -->
+      <div class="bg-obsidian text-white px-5 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="relative w-9 h-9 rounded-full bg-limepulse text-obsidian font-extrabold text-xs flex items-center justify-center">
+            WH
+            <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-obsidian"></span>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold">Direct Founder Chat</h3>
+            <p class="text-[11px] text-gray-400">Usually replies in under 3 mins</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeChatDrawer()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-sm">
+          ✕
+        </button>
+      </div>
+
+      <!-- Messages -->
+      <div id="chat-messages" class="p-5 space-y-3 max-h-72 overflow-y-auto bg-[#F9FAFB] text-xs">
+        <div class="rounded-2xl rounded-tl-xs bg-white border border-gray-200/80 p-3.5 text-gray-700 shadow-2xs max-w-[85%]">
+          Hey there! 👋 I'm Alex, Co-Founder &amp; Technical Lead at WeHexa. What are you looking to build or automate?
+        </div>
+      </div>
+
+      <!-- Quick Prompt Chips -->
+      <div class="px-4 py-2.5 bg-white border-t border-gray-100 flex flex-wrap gap-1.5">
+        <button type="button" onclick="sendPresetChat('We need an AI customer support agent')" class="px-2.5 py-1 rounded-full bg-gray-100 hover:bg-limepulse text-[11px] font-medium text-obsidian transition-colors">
+          AI Support Agent
+        </button>
+        <button type="button" onclick="sendPresetChat('Looking to build a SaaS MVP')" class="px-2.5 py-1 rounded-full bg-gray-100 hover:bg-limepulse text-[11px] font-medium text-obsidian transition-colors">
+          SaaS MVP Sprint
+        </button>
+        <button type="button" onclick="sendPresetChat('Full product redesign & brand identity')" class="px-2.5 py-1 rounded-full bg-gray-100 hover:bg-limepulse text-[11px] font-medium text-obsidian transition-colors">
+          UI/UX Redesign
+        </button>
+      </div>
+
+      <!-- Input -->
+      <form id="chat-form" class="p-3 bg-white border-t border-gray-100 flex items-center gap-2">
+        <input
+          id="chat-input"
+          type="text"
+          placeholder="Ask a technical question..."
+          class="flex-1 rounded-full bg-gray-100 px-4 py-2 text-xs text-obsidian placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-obsidian/20"
+        />
+        <button type="submit" class="rounded-full bg-limepulse hover:bg-limepulse-hover px-4 py-2 text-xs font-bold text-obsidian transition-colors">
+          Send
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       INTERACTIVE BLOG ARTICLE READER MODAL
+  ========================================================== -->
+  <div id="article-modal" class="fixed inset-0 z-[80] hidden items-center justify-center bg-black/50 backdrop-blur-xs p-4">
+    <div class="w-full max-w-xl rounded-3xl bg-white shadow-2xl border border-gray-100 overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+        <span id="modal-article-tag" class="font-mono text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-limepulse text-obsidian">
+          AI Strategy
+        </span>
+        <button type="button" onclick="closeArticleModal()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-obsidian text-sm">
+          ✕
+        </button>
+      </div>
+      <div class="p-6 sm:p-8 space-y-4">
+        <h3 id="modal-article-title" class="text-xl sm:text-2xl font-bold text-obsidian leading-snug"></h3>
+        <div class="flex items-center gap-3 text-xs text-gray-400 font-mono">
+          <span>By WeHexa Research Team</span>
+          <span>•</span>
+          <span>5 min read</span>
+        </div>
+        <p id="modal-article-body" class="text-sm leading-relaxed text-gray-600"></p>
+        <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
+          <span class="text-xs text-gray-500">Want us to implement this for your team?</span>
+          <a href="#contact" onclick="closeArticleModal()" class="rounded-full bg-obsidian text-white px-4 py-2 text-xs font-semibold hover:bg-obsidian-surface transition-colors">
+            Book a Call ↗
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       INTERACTIVE JAVASCRIPT ENGINE
+  ========================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* -------------------------------------------------------
+         1. SCROLL PROGRESS, DIRECTION-AWARE NAVBAR & PARALLAX
+      -------------------------------------------------------- */
+      const progressBar = document.getElementById('scroll-progress-bar');
+      const navbar = document.getElementById('floating-navbar');
+      const backToTopBtn = document.getElementById('back-to-top-btn');
+      const kineticTrack = document.getElementById('kinetic-banner-track');
+      const parallaxElements = document.querySelectorAll('[data-parallax]');
+
+      let lastScrollY = window.scrollY;
+      let scrollDirection = 1; // 1 = down, -1 = up
+      let marqueeDirection = 1; // 1 = left, -1 = right
+
+      function handleScroll() {
+        const currentY = window.scrollY;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = maxScroll > 0 ? Math.min(100, Math.max(0, (currentY / maxScroll) * 100)) : 0;
+
+        // Update Top 3px Lime Progress Bar
+        if (progressBar) {
+          progressBar.style.width = progress + '%';
+        }
+
+        // Determine Scroll Direction
+        const delta = currentY - lastScrollY;
+        if (Math.abs(delta) > 3) {
+          if (delta > 0) {
+            // Scrolling DOWN
+            scrollDirection = 1;
+            marqueeDirection = 1;
+            document.documentElement.style.setProperty('--scroll-dir', '1');
+            document.body.classList.remove('scrolling-up');
+
+            if (currentY > 140) {
+              navbar.classList.add('nav-hidden');
+              navbar.classList.remove('nav-visible');
+            }
+          } else {
+            // Scrolling UP
+            scrollDirection = -1;
+            marqueeDirection = -1;
+            document.documentElement.style.setProperty('--scroll-dir', '-1');
+            document.body.classList.add('scrolling-up');
+
+            navbar.classList.remove('nav-hidden');
+            navbar.classList.add('nav-visible');
+          }
+        }
+
+        // Always show navbar near top
+        if (currentY <= 120) {
+          navbar.classList.remove('nav-hidden');
+          navbar.classList.add('nav-visible');
+        }
+
+        // Show Back-To-Top Pill when scrolling UP past 550px
+        if (backToTopBtn) {
+          if (currentY > 550 && scrollDirection === -1) {
+            backToTopBtn.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            backToTopBtn.classList.add('translate-y-0', 'opacity-100');
+          } else {
+            backToTopBtn.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+            backToTopBtn.classList.remove('translate-y-0', 'opacity-100');
+          }
+        }
+
+        // Multi-layer Parallax
+        parallaxElements.forEach((el) => {
+          const speed = parseFloat(el.getAttribute('data-parallax')) || 0;
+          const rect = el.parentElement.getBoundingClientRect();
+          if (rect.bottom > -200 && rect.top < window.innerHeight + 200) {
+            const offset = rect.top * speed;
+            el.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0)`;
+          }
+        });
+
+        // Scroll-Linked Kinetic Display Typography Banner
+        if (kineticTrack) {
+          const rect = kineticTrack.parentElement.getBoundingClientRect();
+          const shift = (rect.top - window.innerHeight * 0.5) * 0.28;
+          kineticTrack.style.transform = `translate3d(${shift.toFixed(1)}px, 0, 0)`;
+        }
+
+        lastScrollY = currentY;
+      }
+
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      handleScroll();
+
+      if (backToTopBtn) {
+        backToTopBtn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+
+      /* -------------------------------------------------------
+         2. BIDIRECTIONAL INTERSECTION OBSERVER REVEAL
+      -------------------------------------------------------- */
+      const revealEls = document.querySelectorAll('[data-reveal]');
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+            } else {
+              // Reset subtle offset when scrolled out so re-entry from top or bottom animates smoothly
+              entry.target.classList.remove('is-visible');
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -30px 0px' }
+      );
+      revealEls.forEach((el) => revealObserver.observe(el));
+
+      /* -------------------------------------------------------
+         3. ACTIVE SECTION NAVIGATION HIGHLIGHT
+      -------------------------------------------------------- */
+      const sections = ['work', 'services', 'faq', 'blog'];
+      const navLinks = document.querySelectorAll('[data-nav-link]');
+      const sectionObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const id = entry.target.id;
+              navLinks.forEach((link) => {
+                if (link.getAttribute('data-nav-link') === id) {
+                  link.classList.add('bg-gray-100', 'text-obsidian', 'font-semibold');
+                } else {
+                  link.classList.remove('bg-gray-100', 'text-obsidian', 'font-semibold');
+                }
+              });
+            }
+          });
+        },
+        { threshold: 0.35 }
+      );
+      sections.forEach((id) => {
+        const sec = document.getElementById(id);
+        if (sec) sectionObserver.observe(sec);
+      });
+
+      /* -------------------------------------------------------
+         4. DIRECTION-REACTIVE CLIENT LOGO MARQUEE
+      -------------------------------------------------------- */
+      const marqueeTrack = document.getElementById('logo-marquee-track');
+      const marqueeViewport = document.getElementById('logo-marquee-viewport');
+      let marqueePos = 0;
+      let marqueePaused = false;
+
+      if (marqueeViewport && marqueeTrack) {
+        marqueeViewport.addEventListener('mouseenter', () => (marqueePaused = true));
+        marqueeViewport.addEventListener('mouseleave', () => (marqueePaused = false));
+
+        function animateMarquee() {
+          if (!marqueePaused) {
+            const singleSetWidth = marqueeTrack.scrollWidth / 3;
+            marqueePos -= 0.65 * marqueeDirection;
+
+            if (marqueePos <= -singleSetWidth) {
+              marqueePos += singleSetWidth;
+            } else if (marqueePos >= 0) {
+              marqueePos -= singleSetWidth;
+            }
+
+            marqueeTrack.style.transform = `translate3d(${marqueePos.toFixed(2)}px, 0, 0)`;
+          }
+          requestAnimationFrame(animateMarquee);
+        }
+        requestAnimationFrame(animateMarquee);
+      }
+
+      /* -------------------------------------------------------
+         5. INTERACTIVE 4-COLUMN SERVICES SHOWCASE
+      -------------------------------------------------------- */
+      const serviceCards = document.querySelectorAll('[data-service-card]');
+      const serviceCounter = document.getElementById('service-active-counter');
+
+      function activateServiceCard(index) {
+        serviceCards.forEach((card, idx) => {
+          const title = card.querySelector('.service-title');
+          const desc = card.querySelector('.service-desc');
+          const preview = card.querySelector('.service-preview');
+
+          if (idx === index) {
+            card.classList.add('is-active', 'bg-[#0D0F12]', 'text-white', 'border-white/15', 'shadow-obsidian');
+            card.classList.remove('bg-white', 'border-gray-200/90');
+            if (title) {
+              title.classList.add('text-white');
+              title.classList.remove('text-obsidian');
+            }
+            if (desc) {
+              desc.classList.remove('opacity-0', 'max-h-0');
+              desc.classList.add('opacity-100', 'max-h-32', 'text-gray-400');
+            }
+            if (preview) {
+              preview.classList.remove('bg-gray-50', 'border-gray-100');
+              preview.classList.add('bg-[#161920]', 'border-white/10');
+            }
+          } else {
+            card.classList.remove('is-active', 'bg-[#0D0F12]', 'text-white', 'border-white/15', 'shadow-obsidian');
+            card.classList.add('bg-white', 'border-gray-200/90');
+            if (title) {
+              title.classList.remove('text-white');
+              title.classList.add('text-obsidian');
+            }
+            if (desc) {
+              desc.classList.add('opacity-0', 'max-h-0');
+              desc.classList.remove('opacity-100', 'max-h-32', 'text-gray-400');
+            }
+            if (preview) {
+              preview.classList.add('bg-gray-50', 'border-gray-100');
+              preview.classList.remove('bg-[#161920]', 'border-white/10');
+            }
+          }
+        });
+
+        if (serviceCounter) {
+          serviceCounter.textContent = `0${index + 1} / 04`;
+        }
+      }
+
+      serviceCards.forEach((card, idx) => {
+        card.addEventListener('mouseenter', () => activateServiceCard(idx));
+        card.addEventListener('click', () => activateServiceCard(idx));
+        card.addEventListener('focus', () => activateServiceCard(idx));
+      });
+
+      /* -------------------------------------------------------
+         6. FAQ ACCORDION INTERACTION
+      -------------------------------------------------------- */
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach((item) => {
+        const trigger = item.querySelector('.faq-trigger');
+        trigger.addEventListener('click', () => {
+          const isOpen = item.classList.contains('open');
+          faqItems.forEach((other) => {
+            other.classList.remove('open');
+            other.querySelector('.faq-trigger').setAttribute('aria-expanded', 'false');
+          });
+          if (!isOpen) {
+            item.classList.add('open');
+            trigger.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+
+      /* -------------------------------------------------------
+         7. LANGUAGE SWITCHER & MOBILE DRAWER
+      -------------------------------------------------------- */
+      const langBtn = document.getElementById('lang-toggle-btn');
+      const langDropdown = document.getElementById('lang-dropdown');
+      const langLabel = document.getElementById('current-lang-label');
+      const langChevron = document.getElementById('lang-chevron');
+      const langOptions = document.querySelectorAll('.lang-option');
+
+      if (langBtn && langDropdown) {
+        langBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isHidden = langDropdown.classList.contains('hidden');
+          langDropdown.classList.toggle('hidden');
+          langBtn.setAttribute('aria-expanded', String(isHidden));
+          langChevron.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+        });
+
+        langOptions.forEach((opt) => {
+          opt.addEventListener('click', () => {
+            const code = opt.getAttribute('data-lang');
+            langLabel.textContent = code;
+            langOptions.forEach((o) => o.classList.remove('bg-gray-100', 'font-semibold', 'text-obsidian'));
+            opt.classList.add('bg-gray-100', 'font-semibold', 'text-obsidian');
+            langDropdown.classList.add('hidden');
+            langChevron.style.transform = 'rotate(0deg)';
+
+            const contactLabel = document.querySelector('[data-i18n="nav_contact"]');
+            if (contactLabel) {
+              contactLabel.textContent = code === 'IDN' ? 'Hubungi Kami' : 'Contact Us';
+            }
+          });
+        });
+
+        document.addEventListener('click', () => {
+          langDropdown.classList.add('hidden');
+          langChevron.style.transform = 'rotate(0deg)';
+        });
+      }
+
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileDrawer = document.getElementById('mobile-drawer');
+      const hamburgerIcon = document.getElementById('hamburger-icon');
+      const closeMenuIcon = document.getElementById('close-menu-icon');
+
+      if (mobileMenuBtn && mobileDrawer) {
+        mobileMenuBtn.addEventListener('click', () => {
+          const isClosed = mobileDrawer.classList.contains('hidden');
+          mobileDrawer.classList.toggle('hidden');
+          hamburgerIcon.classList.toggle('hidden', isClosed);
+          closeMenuIcon.classList.toggle('hidden', !isClosed);
+          mobileMenuBtn.setAttribute('aria-expanded', String(isClosed));
+        });
+
+        document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+          link.addEventListener('click', () => {
+            mobileDrawer.classList.add('hidden');
+            hamburgerIcon.classList.remove('hidden');
+            closeMenuIcon.classList.add('hidden');
+          });
+        });
+      }
+
+      /* -------------------------------------------------------
+         8. MAGNETIC HOVER EFFECT ON LIME PILL BUTTONS
+      -------------------------------------------------------- */
+      document.querySelectorAll('.magnetic-btn').forEach((btn) => {
+        btn.addEventListener('mousemove', (e) => {
+          const rect = btn.getBoundingClientRect();
+          const x = (e.clientX - rect.left - rect.width / 2) * 0.16;
+          const y = (e.clientY - rect.top - rect.height / 2) * 0.22;
+          btn.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+        });
+        btn.addEventListener('mouseleave', () => {
+          btn.style.transform = 'translate3d(0, 0, 0)';
+        });
+      });
+
+      /* -------------------------------------------------------
+         9. STRATEGY CALL FORM VALIDATION & SUBMISSION
+      -------------------------------------------------------- */
+      const strategyForm = document.getElementById('strategy-form');
+      const formError = document.getElementById('form-error-msg');
+      const formSuccess = document.getElementById('form-success-card');
+      const formSummary = document.getElementById('form-success-summary');
+      const resetFormBtn = document.getElementById('reset-form-btn');
+
+      if (strategyForm) {
+        strategyForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = document.getElementById('full-name').value.trim();
+          const email = document.getElementById('email').value.trim();
+          const service = document.getElementById('service-type').value;
+          const budget = document.getElementById('project-budget').value;
+          const details = document.getElementById('project-details').value.trim();
+
+          const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+          if (!name || !emailValid || !details) {
+            formError.classList.remove('hidden');
+            return;
+          }
+
+          formError.classList.add('hidden');
+          strategyForm.classList.add('hidden');
+          formSuccess.classList.remove('hidden');
+          formSummary.textContent = `Thank you, ${name}! Our technical founders have received your ${service} (${budget}) brief and will reach out to ${email} within 24 hours.`;
+        });
+      }
+
+      if (resetFormBtn) {
+        resetFormBtn.addEventListener('click', () => {
+          strategyForm.reset();
+          formSuccess.classList.add('hidden');
+          strategyForm.classList.remove('hidden');
+        });
+      }
+
+      /* -------------------------------------------------------
+         10. LIVE FOUNDER CHAT & ARTICLE READER MODALS
+      -------------------------------------------------------- */
+      const chatModal = document.getElementById('chat-modal');
+      const chatMessages = document.getElementById('chat-messages');
+      const chatForm = document.getElementById('chat-form');
+      const chatInput = document.getElementById('chat-input');
+
+      window.openChatDrawer = function () {
+        chatModal.classList.remove('hidden');
+        chatModal.classList.add('flex');
+        setTimeout(() => chatInput && chatInput.focus(), 100);
+      };
+
+      window.closeChatDrawer = function () {
+        chatModal.classList.add('hidden');
+        chatModal.classList.remove('flex');
+      };
+
+      function appendChatMessage(text, isUser) {
+        const bubble = document.createElement('div');
+        bubble.className = isUser
+          ? 'ml-auto rounded-2xl rounded-tr-xs bg-obsidian text-white p-3.5 max-w-[82%] shadow-2xs'
+          : 'rounded-2xl rounded-tl-xs bg-white border border-gray-200/80 p-3.5 text-gray-700 shadow-2xs max-w-[85%]';
+        bubble.textContent = text;
+        chatMessages.appendChild(bubble);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      window.sendPresetChat = function (msg) {
+        appendChatMessage(msg, true);
+        setTimeout(() => {
+          appendChatMessage(
+            "Great choice! We can scope a technical roadmap for that in a 20-minute founder session. Drop your email in the 'Let's Talk' form or share your timeline right here.",
+            false
+          );
+        }, 550);
+      };
+
+      if (chatForm) {
+        chatForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const val = chatInput.value.trim();
+          if (!val) return;
+          chatInput.value = '';
+          window.sendPresetChat(val);
+        });
+      }
+
+      const articles = [
+        {
+          tag: 'Automation • AI Strategy',
+          title: 'How to integrate LLMs into your existing customer support workflow.',
+          body: 'Modern support teams reduce first-response times by 78% by pairing Retrieval-Augmented Generation (RAG) with deterministic tool-calling guardrails. Instead of replacing human empathy, autonomous triage agents resolve repetitive tier-1 tickets and prepare rich context briefs for complex escalations.'
+        },
+        {
+          tag: 'Research • LLM • Workflows',
+          title: 'Why Next.js is the superior choice for high-performance SaaS platforms.',
+          body: 'With React Server Components, streaming SSR, and edge middleware, Next.js eliminates client-side waterfall latency while keeping AI token streaming smooth at 60fps. Combined with strict TypeScript contracts, teams ship features twice as fast with zero bundle bloat.'
+        },
+        {
+          tag: 'Product • Design Ops • Figma',
+          title: 'The psychology of UI: How micro-interactions boost user retention.',
+          body: 'Tactile feedback—from spring-loaded button states to directional scroll cues—builds immediate trust in software quality. When interfaces respond naturally to user intent, cognitive friction drops and daily active retention climbs measurably.'
+        }
+      ];
+
+      const articleModal = document.getElementById('article-modal');
+      window.openArticleModal = function (idx) {
+        const art = articles[idx] || articles[0];
+        document.getElementById('modal-article-tag').textContent = art.tag;
+        document.getElementById('modal-article-title').textContent = art.title;
+        document.getElementById('modal-article-body').textContent = art.body;
+        articleModal.classList.remove('hidden');
+        articleModal.classList.add('flex');
+      };
+
+      window.closeArticleModal = function () {
+        articleModal.classList.add('hidden');
+        articleModal.classList.remove('flex');
+      };
+
+      // Close modals on backdrop click or Escape key
+      [chatModal, articleModal].forEach((modal) => {
+        if (modal) {
+          modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+              modal.classList.add('hidden');
+              modal.classList.remove('flex');
+            }
+          });
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          window.closeChatDrawer();
+          window.closeArticleModal();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

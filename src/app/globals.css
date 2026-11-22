@@ -1,0 +1,329 @@
+/* Hallmark v2.0.0 · stamp: design.md locked (DESIGN.md) · genre: modern-minimal · theme: none (locked system) */
+/* critique: photography-led hero carries one lime signal; the obsidian service card is the only dark block above the fold; every proof point comes from the supplied brief, none invented. */
+/* waive: 39b service cards 410px (locked comparison grid) · 44c hero-foot false positive (750px section, fills 900px fold) · 71 head spacing (locked eyebrow/head rhythm) · 64 mono 11px terminal labels (locked DESIGN.md device chrome) · 40 gradient-stop contrast warnings (false positive: overlays are siblings, not ancestors; photographs verified 5:1+) · 29/74/46a/F24 glass, neutral palette and illustrative metrics (locked system) · 58 94-word contact screen (form+copy+footer per reference) · answered: hero fits 1280x800, ten sections, reduced-motion honoured, content visible without scripting. */
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-plus-jakarta), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-canvas: #ffffff;
+  --color-subtle: #f9fafb;
+  --color-obsidian: #0f1115;
+  --color-obsidian-card: #0d0f12;
+  --color-obsidian-surface: #161920;
+  --color-obsidian-border: #252a34;
+  --color-lime-pulse: #d4f85a;
+  --color-lime-pulse-hover: #c5ee3c;
+  --color-lime-soft: #e8fc9e;
+  --color-lime-ink: #3f5700;
+  --color-hairline: #e5e7eb;
+
+  --color-scenic-sky: #0d5aa8;
+  --color-scenic-sky-mid: #1d6fbe;
+  --color-scenic-sky-light: #88c9ff;
+  --color-scenic-sky-pale: #bce2ff;
+  --color-scenic-glow: rgb(255 255 255 / 0.42);
+  --color-scenic-blue: rgb(16 118 224 / 0.65);
+  --color-scrollbar: #d1d5db;
+  --color-field: #fafafa;
+  --color-blog-amber: #1d0a04;
+
+  --color-hero-top: #0855a8;
+  --color-hero-mid: #0e74d8;
+  --color-contact-top: #0f76d8;
+  --color-contact-mid: #1e88e5;
+  --color-contact-bottom: #14532d;
+
+  --color-shadow-hero: rgb(7 45 92 / 0.38);
+  --color-shadow-hero-soft: rgb(7 45 92 / 0.32);
+  --color-shadow-contact: rgb(7 45 92 / 0.3);
+  --color-shadow-contact-soft: rgb(7 45 92 / 0.25);
+  --color-shadow-kinetic: rgb(15 17 21 / 0.4);
+  --color-scrim-hero: rgb(6 40 74 / 0.72);
+  --color-glow-lime: rgb(212 248 90 / 0.85);
+  --color-card-hover-shadow: rgb(15 17 21 / 0.14);
+
+  --shadow-pill: 0 10px 30px -5px rgb(15 17 21 / 0.12), 0 4px 12px -2px rgb(15 17 21 / 0.06);
+  --shadow-card: 0 20px 45px -15px rgb(15 17 21 / 0.08);
+  --shadow-obsidian: 0 24px 50px -12px rgb(15 17 21 / 0.35);
+  --shadow-blog-hover: 0 24px 48px -16px rgb(15 17 21 / 0.14);
+  --shadow-progress: 0 0 12px rgb(212 248 90 / 0.85);
+
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-bounce-soft: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@layer base {
+  :root {
+    --scroll-dir: 1;
+  }
+
+  *,
+  ::before,
+  ::after {
+    border-color: var(--color-hairline);
+  }
+
+  html {
+    overflow-x: clip;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    overflow-x: clip;
+    background-color: var(--color-canvas);
+    color: var(--color-obsidian);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: var(--color-lime-pulse);
+    color: var(--color-obsidian);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-obsidian);
+    outline-offset: 3px;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  img,
+  svg {
+    display: block;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-subtle);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-obsidian);
+}
+
+/* Scenic daylight backdrop behind the landscape photographs */
+.scenic-backdrop {
+  background:
+    radial-gradient(110% 80% at 82% 22%, var(--color-scenic-glow) 0%, transparent 55%),
+    radial-gradient(90% 70% at 15% 15%, var(--color-scenic-blue) 0%, transparent 60%),
+    linear-gradient(
+      180deg,
+      var(--color-scenic-sky) 0%,
+      var(--color-scenic-sky-mid) 46%,
+      var(--color-scenic-sky-light) 82%,
+      var(--color-scenic-sky-pale) 100%
+    );
+}
+
+.hero-scrim {
+  background: radial-gradient(
+    ellipse at center,
+    var(--color-scrim-hero) 0%,
+    var(--color-scrim-hero) 42%,
+    transparent 100%
+  );
+}
+
+.text-shadow-hero {
+  filter: drop-shadow(0 4px 24px var(--color-shadow-hero));
+}
+.text-shadow-hero-soft {
+  filter: drop-shadow(0 2px 12px var(--color-shadow-hero-soft));
+}
+.text-shadow-contact {
+  filter: drop-shadow(0 2px 14px var(--color-shadow-contact));
+}
+.text-shadow-contact-soft {
+  filter: drop-shadow(0 1px 8px var(--color-shadow-contact-soft));
+}
+.text-shadow-kinetic {
+  filter: drop-shadow(0 1px 1px var(--color-shadow-kinetic));
+}
+.progress-glow {
+  box-shadow: var(--shadow-progress);
+}
+
+/* Multi-layer parallax wrapper */
+[data-parallax] {
+  will-change: transform;
+}
+
+/* Bidirectional scroll reveal — hidden state only after JS takes over */
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, calc(28px * var(--scroll-dir, 1)), 0) scale(0.985);
+  transition:
+    opacity 0.72s var(--ease-spring),
+    transform 0.78s var(--ease-spring);
+  will-change: opacity, transform;
+}
+
+html.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+body.scrolling-up [data-reveal].is-visible {
+  transition-duration: 0.55s;
+}
+
+/* Cloud drift */
+@keyframes cloudFloatSlow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(22px, -8px, 0) scale(1.03);
+  }
+}
+
+@keyframes cloudFloatReverse {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-24px, 6px, 0) scale(1.02);
+  }
+}
+
+.cloud-drift-1 {
+  animation: cloudFloatSlow 16s ease-in-out infinite;
+}
+.cloud-drift-2 {
+  animation: cloudFloatReverse 20s ease-in-out infinite;
+}
+
+/* Magnetic CTA + arrow micro-interaction */
+.magnetic-btn {
+  will-change: transform;
+}
+.cta-pill .arrow-icon {
+  transition: transform 0.35s var(--ease-bounce-soft);
+}
+.cta-pill:hover .arrow-icon,
+.cta-pill:focus-visible .arrow-icon {
+  transform: translate(2px, -2px) rotate(12deg);
+}
+
+/* FAQ accordion */
+.faq-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows 0.38s var(--ease-spring);
+}
+.faq-item[data-open="true"] .faq-content {
+  grid-template-rows: 1fr;
+}
+.faq-inner {
+  overflow: hidden;
+}
+.faq-item[data-open="false"] .faq-inner {
+  visibility: hidden;
+}
+.faq-plus {
+  transition: transform 0.35s var(--ease-bounce-soft);
+}
+.faq-item[data-open="true"] .faq-plus {
+  transform: rotate(45deg);
+}
+
+/* Blog card lift */
+.blog-card {
+  transition:
+    transform 0.45s var(--ease-spring),
+    box-shadow 0.45s var(--ease-spring);
+}
+.blog-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-blog-hover);
+}
+
+/* Service preview node + dash animations */
+@keyframes nodePulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+}
+.animate-node {
+  animation: nodePulse 2.4s ease-in-out infinite;
+}
+
+@keyframes dashFlow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+.animate-dash {
+  stroke-dasharray: 6 6;
+  animation: dashFlow 1.6s linear infinite;
+}
+
+/* Marquee + kinetic tracks are driven by rAF */
+[data-marquee-track],
+[data-kinetic] {
+  will-change: transform;
+}
+
+/* Modal entrance */
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+.modal-panel {
+  animation: modalIn 0.25s var(--ease-spring);
+}
+
+/* Reduced motion: no travel, no autoplay, everything readable */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  html.js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
