@@ -95,18 +95,20 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${sans.variable} ${mono.variable}`}>
       <body>
-        <a
-          href="#work"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-obsidian focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
-        >
-          Skip to content / Lewati ke konten
-        </a>
         <LanguageProvider>
           <ChatProvider>
-            <Navbar />
-            {children}
-            <FounderChatDrawer />
             <ScrollUtilities />
+            <a
+              href="#work"
+              className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-obsidian focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
+            >
+              Skip to content / Lewati ke konten
+            </a>
+            <div id="smooth-wrapper">
+              <div id="smooth-content">{children}</div>
+            </div>
+            <Navbar />
+            <FounderChatDrawer />
           </ChatProvider>
         </LanguageProvider>
       </body>

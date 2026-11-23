@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 
 type BlogReaderModalProps = {
@@ -59,7 +60,7 @@ export default function BlogReaderModal({
 
   if (!post) return null;
 
-  return (
+  return createPortal(
     <div
       className="fixed inset-0 z-[80] flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs"
       onClick={(event) => {
@@ -126,6 +127,7 @@ export default function BlogReaderModal({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

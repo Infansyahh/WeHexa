@@ -23,6 +23,7 @@ export default function Navbar() {
   const [active, setActive] = useState<NavSection | null>(null);
   const langRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLElement>(null);
+  const navRef = useRef<HTMLElement>(null);
   const menuOpenRef = useRef(false);
 
   useEffect(() => {
@@ -98,6 +99,30 @@ export default function Navbar() {
     };
   }, []);
 
+  useGSAP(
+    () => {
+      const nav = navRef.current;
+      if (!nav) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      const move = (event: PointerEvent) => {
+        const rect = nav.getBoundingClientRect();
+        nav.style.setProperty(
+          "--mx",
+          `${(((event.clientX - rect.left) / rect.width) * 100).toFixed(1)}%`,
+        );
+        nav.style.setProperty(
+          "--my",
+          `${(((event.clientY - rect.top) / rect.height) * 100).toFixed(1)}%`,
+        );
+      };
+
+      nav.addEventListener("pointermove", move);
+      return () => nav.removeEventListener("pointermove", move);
+    },
+    { scope: navRef },
+  );
+
   const isHidden = hidden && !menuOpen;
 
   useGSAP(
@@ -122,8 +147,9 @@ export default function Navbar() {
       style={{ transform: "translate3d(-50%, 0%, 0)" }}
     >
       <nav
+        ref={navRef}
         aria-label="Primary Navigation"
-        className="flex items-center justify-between rounded-full border border-white/80 bg-white/95 px-4 py-2.5 shadow-pill backdrop-blur-md sm:px-6"
+        className="liquid-glass flex items-center justify-between rounded-full px-4 py-2.5 sm:px-6"
       >
         <a
           href="#top"
@@ -140,9 +166,9 @@ export default function Navbar() {
               <a
                 href={`#${link.id}`}
                 aria-current={active === link.id ? "true" : undefined}
-                className={`rounded-full px-3.5 py-1.5 transition-colors hover:bg-gray-100/80 hover:text-obsidian active:bg-gray-200 ${
+                className={`rounded-full px-3.5 py-1.5 transition-colors hover:bg-white/40 hover:text-obsidian active:bg-white/60 ${
                   active === link.id
-                    ? "bg-gray-100 font-semibold text-obsidian"
+                    ? "glass-chip font-semibold text-obsidian"
                     : ""
                 }`}
               >
@@ -160,7 +186,7 @@ export default function Navbar() {
               aria-haspopup="true"
               aria-label={t.nav.language}
               onClick={() => setLangOpen((open) => !open)}
-              className="flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-xs font-semibold tracking-wide text-gray-700 transition-colors hover:bg-gray-100"
+              className="flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-xs font-semibold tracking-wide text-gray-700 transition-colors hover:bg-white/40"
             >
               <span>{lang === "en" ? "ENG" : "IDN"}</span>
               <svg
@@ -182,7 +208,7 @@ export default function Navbar() {
             </button>
 
             {langOpen && (
-              <div className="absolute right-0 z-50 mt-2 w-40 rounded-2xl border border-gray-100 bg-white p-1.5 shadow-xl">
+              <div className="liquid-glass-panel absolute right-0 z-50 mt-2 w-40 rounded-2xl p-1.5">
                 <button
                   type="button"
                   onClick={() => {
@@ -191,8 +217,8 @@ export default function Navbar() {
                   }}
                   className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs ${
                     lang === "en"
-                      ? "bg-gray-100 font-semibold text-obsidian"
-                      : "font-semibold text-gray-600 hover:bg-gray-50"
+                      ? "glass-chip font-semibold text-obsidian"
+                      : "font-semibold text-gray-600 hover:bg-white/50"
                   }`}
                 >
                   <span>{t.nav.english}</span>
@@ -210,8 +236,8 @@ export default function Navbar() {
                   }}
                   className={`mt-0.5 flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs ${
                     lang === "id"
-                      ? "bg-gray-100 font-semibold text-obsidian"
-                      : "font-semibold text-gray-600 hover:bg-gray-50"
+                      ? "glass-chip font-semibold text-obsidian"
+                      : "font-semibold text-gray-600 hover:bg-white/50"
                   }`}
                 >
                   <span>{t.nav.indonesian}</span>
@@ -233,7 +259,7 @@ export default function Navbar() {
             aria-expanded={menuOpen}
             aria-controls="mobile-drawer"
             onClick={() => setMenuOpen((open) => !open)}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 text-obsidian transition-colors hover:bg-gray-200 md:hidden"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/60 text-obsidian transition-colors hover:bg-white/85 md:hidden"
           >
             {menuOpen ? (
               <svg
@@ -273,7 +299,7 @@ export default function Navbar() {
       {menuOpen && (
         <div
           id="mobile-drawer"
-          className="mt-2 rounded-3xl border border-gray-100 bg-white/95 p-4 shadow-2xl backdrop-blur-xl md:hidden"
+          className="liquid-glass-panel mt-2 rounded-3xl p-4 md:hidden"
         >
           <div className="flex flex-col space-y-1">
             {links.map((link) => (
@@ -281,7 +307,7 @@ export default function Navbar() {
                 key={link.id}
                 href={`#${link.id}`}
                 onClick={() => setMenuOpen(false)}
-                className="rounded-2xl px-4 py-3 text-sm font-semibold text-obsidian transition-colors hover:bg-gray-100"
+                className="rounded-2xl px-4 py-3 text-sm font-semibold text-obsidian transition-colors hover:bg-white/55"
               >
                 {t.nav[link.key]}
               </a>

@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { useLanguage } from "@/components/providers/LanguageProvider";
-import { gsap, ScrollTrigger, useGSAP } from "./gsap";
+import { gsap, ScrollSmoother, ScrollTrigger, useGSAP } from "./gsap";
 
 /**
  * One client-side motion engine for the whole page, powered by GSAP:
@@ -21,13 +21,23 @@ export default function ScrollUtilities() {
 
     root.classList.add("js");
 
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const smoother = prefersReduced
+      ? null
+      : ScrollSmoother.create({
+          smooth: 1.2,
+          smoothTouch: 0.1,
+          effects: false,
+          ignoreMobileResize: true,
+        });
+
     const reveals = gsap.utils.toArray<HTMLElement>("[data-reveal]");
     const parallax = gsap.utils.toArray<HTMLElement>("[data-parallax]");
     const kinetic = gsap.utils.toArray<HTMLElement>("[data-kinetic]");
 
     const setProgress = progress ? gsap.quickSetter(progress, "scaleX") : null;
 
-    let reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let reduceMotion = prefersReduced;
     let lastY = window.scrollY;
     let direction = 1;
     let topVisible = false;
@@ -47,7 +57,8 @@ export default function ScrollUtilities() {
     };
 
     const onTopClick = () => {
-      window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+      if (smoother) smoother.scrollTo(0, true);
+      else window.scrollTo({ top: 0, behavior: "auto" });
     };
     top?.addEventListener("click", onTopClick);
 
@@ -208,6 +219,7 @@ export default function ScrollUtilities() {
     );
 
     return () => {
+      smoother?.kill();
       mm.revert();
       top?.removeEventListener("click", onTopClick);
       document.body.classList.remove("scrolling-up");
