@@ -23,7 +23,6 @@ export default function Navbar() {
   const [active, setActive] = useState<NavSection | null>(null);
   const langRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLElement>(null);
-  const navRef = useRef<HTMLElement>(null);
   const menuOpenRef = useRef(false);
 
   useEffect(() => {
@@ -99,30 +98,6 @@ export default function Navbar() {
     };
   }, []);
 
-  useGSAP(
-    () => {
-      const nav = navRef.current;
-      if (!nav) return;
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-      const move = (event: PointerEvent) => {
-        const rect = nav.getBoundingClientRect();
-        nav.style.setProperty(
-          "--mx",
-          `${(((event.clientX - rect.left) / rect.width) * 100).toFixed(1)}%`,
-        );
-        nav.style.setProperty(
-          "--my",
-          `${(((event.clientY - rect.top) / rect.height) * 100).toFixed(1)}%`,
-        );
-      };
-
-      nav.addEventListener("pointermove", move);
-      return () => nav.removeEventListener("pointermove", move);
-    },
-    { scope: navRef },
-  );
-
   const isHidden = hidden && !menuOpen;
 
   useGSAP(
@@ -147,7 +122,6 @@ export default function Navbar() {
       style={{ transform: "translate3d(-50%, 0%, 0)" }}
     >
       <nav
-        ref={navRef}
         aria-label="Primary Navigation"
         className="liquid-glass flex items-center justify-between rounded-full px-4 py-2.5 sm:px-6"
       >
