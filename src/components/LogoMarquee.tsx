@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import { gsap, useGSAP } from "@/components/motion/gsap";
 
 const SynaptechIcon = () => (
   <svg
@@ -73,7 +74,7 @@ export default function LogoMarquee() {
   const trackRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useGSAP(() => {
     const track = trackRef.current;
     const viewport = viewportRef.current;
     if (!track || !viewport) return;
@@ -81,7 +82,7 @@ export default function LogoMarquee() {
 
     let position = 0;
     let paused = false;
-    let frame = 0;
+    const setX = gsap.quickSetter(track, "x", "px");
 
     const pause = () => {
       paused = true;
@@ -93,31 +94,29 @@ export default function LogoMarquee() {
     viewport.addEventListener("mouseenter", pause);
     viewport.addEventListener("mouseleave", resume);
 
-    const animate = () => {
-      if (!paused) {
-        const singleSet = track.scrollWidth / 3;
-        const direction =
-          document.documentElement.dataset.scrollDir === "up" ? -1 : 1;
-        position -= 0.65 * direction;
+    const tick = (_time: number, deltaTime: number) => {
+      if (paused) return;
+      const singleSet = track.scrollWidth / 3;
+      if (singleSet <= 0) return;
 
-        if (singleSet > 0) {
-          if (position <= -singleSet) position += singleSet;
-          else if (position >= 0) position -= singleSet;
-        }
+      const direction =
+        document.documentElement.dataset.scrollDir === "up" ? -1 : 1;
+      position -= 0.65 * direction * (deltaTime / (1000 / 60));
 
-        track.style.transform = `translate3d(${position.toFixed(2)}px, 0, 0)`;
-      }
-      frame = requestAnimationFrame(animate);
+      if (position <= -singleSet) position += singleSet;
+      else if (position >= 0) position -= singleSet;
+
+      setX(position);
     };
 
-    frame = requestAnimationFrame(animate);
+    gsap.ticker.add(tick);
 
     return () => {
-      cancelAnimationFrame(frame);
+      gsap.ticker.remove(tick);
       viewport.removeEventListener("mouseenter", pause);
       viewport.removeEventListener("mouseleave", resume);
     };
-  }, []);
+  });
 
   return (
     <section

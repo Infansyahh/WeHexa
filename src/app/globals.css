@@ -167,23 +167,11 @@
   will-change: transform;
 }
 
-/* Bidirectional scroll reveal — hidden state only after JS takes over */
+/* Pre-hydration guard — GSAP owns the actual reveal animation */
 html.js [data-reveal] {
   opacity: 0;
   transform: translate3d(0, calc(28px * var(--scroll-dir, 1)), 0) scale(0.985);
-  transition:
-    opacity 0.72s var(--ease-spring),
-    transform 0.78s var(--ease-spring);
   will-change: opacity, transform;
-}
-
-html.js [data-reveal].is-visible {
-  opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
-}
-
-body.scrolling-up [data-reveal].is-visible {
-  transition-duration: 0.55s;
 }
 
 /* Cloud drift */

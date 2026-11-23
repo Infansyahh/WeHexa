@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { gsap, ScrollTrigger, useGSAP } from "@/components/motion/gsap";
 import { useChat } from "@/components/providers/ChatProvider";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 import CtaPill from "@/components/ui/CtaPill";
@@ -21,34 +22,38 @@ export default function Navbar() {
   const [langOpen, setLangOpen] = useState(false);
   const [active, setActive] = useState<NavSection | null>(null);
   const langRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const menuOpenRef = useRef(false);
 
   useEffect(() => {
-    let lastY = window.scrollY;
-    let frame = 0;
+    menuOpenRef.current = menuOpen;
+  }, [menuOpen]);
 
-    const update = () => {
-      frame = 0;
-      const y = window.scrollY;
-      if (y <= 120) {
-        setHidden(false);
-      } else if (y > lastY + 6) {
-        setHidden(true);
-      } else if (y < lastY - 6) {
-        setHidden(false);
-      }
-      lastY = y;
-    };
+  useGSAP(
+    () => {
+      const header = headerRef.current;
+      if (!header) return;
+      gsap.set(header, { xPercent: -50, yPercent: 0 });
 
-    const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      if (frame) cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, []);
+      let lastY = window.scrollY;
+      ScrollTrigger.create({
+        start: 0,
+        end: "max",
+        onUpdate: (self) => {
+          const y = self.scroll();
+          if (y <= 120) {
+            setHidden(false);
+          } else if (y > lastY + 6) {
+            if (!menuOpenRef.current) setHidden(true);
+          } else if (y < lastY - 6) {
+            setHidden(false);
+          }
+          lastY = y;
+        },
+      });
+    },
+    { scope: headerRef },
+  );
 
   useEffect(() => {
     if (!("IntersectionObserver" in window)) return;
@@ -95,14 +100,26 @@ export default function Navbar() {
 
   const isHidden = hidden && !menuOpen;
 
+  useGSAP(
+    () => {
+      const header = headerRef.current;
+      if (!header) return;
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      gsap.to(header, {
+        yPercent: isHidden ? -145 : 0,
+        duration: reduce ? 0 : 0.45,
+        ease: "power3.out",
+        overwrite: "auto",
+      });
+    },
+    { dependencies: [isHidden], scope: headerRef },
+  );
+
   return (
     <header
-      className="fixed left-1/2 top-5 z-50 w-[calc(100%-2.25rem)] max-w-[1220px] transition-transform duration-[450ms] ease-spring md:top-7"
-      style={{
-        transform: isHidden
-          ? "translate3d(-50%, -145%, 0)"
-          : "translate3d(-50%, 0%, 0)",
-      }}
+      ref={headerRef}
+      className="fixed left-1/2 top-5 z-50 w-[calc(100%-2.25rem)] max-w-[1220px] md:top-7"
+      style={{ transform: "translate3d(-50%, 0%, 0)" }}
     >
       <nav
         aria-label="Primary Navigation"
